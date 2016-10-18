@@ -1,0 +1,218 @@
+<HTML>
+<HEAD>
+</HEAD>
+<style>
+body {
+    background-color: hsl(192,40%,60%);
+}
+#grid {
+    margin-top:100px;
+}
+.box {
+    border-style:solid;
+    border-width:2px;
+    border-color: hsl(220,50%,50%); 
+}
+#title {
+    text-align:center;
+    font-style:Monospace;
+    font-size: 50px;
+    color:blue;
+}
+#box1 {
+    background-color:hsl(0, 100%, 50%);
+}
+#box1:active {
+    background-color:hsl(0, 80%, 70%);
+}
+#box2 {
+    background-color:hsl(240, 100%, 50%);
+}
+#box2:active {
+    background-color:hsl(240,80%,70%);
+    }
+#box3 {
+    background-color:hsl(60, 100%, 50%);
+}
+#box3:active {
+    background-color:hsl(60,80%,70%);
+    }
+#box4 {
+    background-color:hsl(120,100%, 25%);
+}
+#box4:active {
+    background-color:hsl(120,80%,70%);
+    }
+</style>
+<script language = javascript>
+var userClicks = [];
+var reqSequence = [];
+var nextColor;
+var boxId;
+var noOfSteps = 1;
+var m = 0;
+var strictMode = 0;
+function start() {
+    userClicks = [];
+    reqSequence = [];
+    nextColor = 0;
+    boxId = 0;
+    noOfSteps = 1;
+    nextColor = Math.ceil(4*Math.random());
+    reqSequence.push(nextColor);
+    playReqSequence()
+    //r = setInterval(changeColor,1000);
+    //boxId = "box" + nextColor;
+    //document.getElementById(boxId).style.backgroundColor = "hsl(120,80%,70%)";
+    //alert(boxId);
+    //alert(reqSequence);
+    userClicks = [];
+    //document.getElementById("box4").style.backgroundColor= "hsl(120,80%,70%)";
+}
+function nextClick() {
+    if(userClicks.length == 20) {
+        alert("You Win!!");
+    } else {
+        document.getElementById("noOfSteps").innerHTML = "No of Steps : " + noOfSteps;
+        nextColor = Math.ceil(4*Math.random());
+        reqSequence.push(nextColor);
+        userClicks = [];
+    //alert(nextColor);
+    //r = setInterval(changeColor,1000);
+        playReqSequence()
+    //boxId = "box" + nextColor;
+    //document.getElementById(boxId).style.backgroundColor = "hsl(120,80%,70%)";
+    //alert(boxId);
+    }
+    //document.getElementById("box4").style.backgroundColor= "hsl(120,80%,70%)";
+}
+function doSet(val) {
+    nextColor = reqSequence[val];    
+    setTimeout(changeColor,1000*val);
+}
+function boxClicked(num) {
+    m = 0;
+    switch(num) {
+        case 1: document.getElementById("box1").style.backgroundColor = "hsl(0,80%,70%)";
+                setTimeout(colorBackk,200);
+                break;
+        case 2: document.getElementById("box2").style.backgroundColor = "hsl(240,80%,70%)";
+                setTimeout(colorBackk,200);
+                break;
+        case 3: document.getElementById("box3").style.backgroundColor = "hsl(60,80%,70%)";
+                setTimeout(colorBackk,200);
+                 break;
+        case 4: document.getElementById("box4").style.backgroundColor = "hsl(120,80%,70%)";
+                setTimeout(colorBackk,200);
+                break;
+        }
+    userClicks.push(num);
+    //document.getElementById("box4").style.backgroundColor = "blue";
+    //alert(userClicks);
+    if(num !== reqSequence[userClicks.length - 1] & strictMode == 1){
+        alert("You lose");
+    } else if(num !== reqSequence[userClicks.length - 1] & strictMode == 0){
+        m = 0;
+        userClicks = [];
+        alert("Look closely Again!");
+        playReqSequence();
+    } else if (userClicks.length == reqSequence.length) {
+        setTimeout(nextClick,1000);
+        noOfSteps++
+
+        
+    }
+}
+function playReqSequence() {
+    nextColor = reqSequence[m];
+    setTimeout(changeColor,200);
+    m++;
+}
+function changeColor() {
+    //alert(reqSequence);
+    EvalSound(nextColor);
+    switch(nextColor) {
+        case 1: document.getElementById("box1").style.backgroundColor = "hsl(0,80%,70%)";
+                setTimeout(colorBack,500);
+                break;
+        case 2: document.getElementById("box2").style.backgroundColor = "hsl(240,80%,70%)";
+                setTimeout(colorBack,500);
+                break;
+        case 3: document.getElementById("box3").style.backgroundColor = "hsl(60,80%,70%)";
+                setTimeout(colorBack,500);
+                 break;
+        case 4: document.getElementById("box4").style.backgroundColor = "hsl(120,80%,70%)";
+                setTimeout(colorBack,500);
+                break;
+        }
+
+    
+}
+function colorBack() {
+    //alert('h');
+    document.getElementById("box1").style.backgroundColor = "hsl(0, 100%, 50%)";
+    document.getElementById("box2").style.backgroundColor = "hsl(240, 100%, 50%)";
+    document.getElementById("box3").style.backgroundColor = "hsl(60, 100%, 50%)";
+    document.getElementById("box4").style.backgroundColor = "hsl(120, 100%, 25%)";
+    setTimeout(playReqSequence,200);
+}
+function colorBackk() {
+    //alert('h');
+    document.getElementById("box1").style.backgroundColor = "hsl(0, 100%, 50%)";
+    document.getElementById("box2").style.backgroundColor = "hsl(240, 100%, 50%)";
+    document.getElementById("box3").style.backgroundColor = "hsl(60, 100%, 50%)";
+    document.getElementById("box4").style.backgroundColor = "hsl(120, 100%, 25%)";
+    //setTimeout(playReqSequence,1000);
+}
+function EvalSound(num) {
+    switch(num) {
+        case 1:var x = new Audio("simonSound1.mp3");
+               x.play();
+               break;
+        case 2:var x = new Audio("simonSound2.mp3");
+               x.play();
+               break;
+        case 3:var x = new Audio("simonSound3.mp3");
+               x.play();
+               break;
+        case 4:var x = new Audio("simonSound4.mp3");
+               x.play();
+               break;
+    }
+}
+function startStrictMode() {
+    if(strictMode){
+        strictMode = 0;
+        document.getElementById("sMode").innerHTML = "Strict Mode is OFF!!";
+    }else{
+        strictMode = 1;
+        document.getElementById("sMode").innerHTML = "Strict Mode is ON!!";
+    }
+}
+</script>
+<Body>
+<p id="title">SIMON</p>
+<div id = "grid" align = center>
+<div>
+<canvas id="box1" class="box" width=150 height=150 onclick = "boxClicked(1);EvalSound(1)"></canvas>
+<canvas id="box2" class="box" width=150 height=150 onclick = "boxClicked(2);EvalSound(2)"></canvas>
+</div>
+<div>
+<canvas id="box3" class="box" width=150 height=150 onclick = "boxClicked(3);EvalSound(3)"></canvas>
+<canvas id="box4" class="box" width=150 height=150 onclick = "boxClicked(4);EvalSound(4)"></canvas>
+<p id="noOfSteps">No of Steps :</p>
+</div>
+<!--<embed src="simonSound1.mp3" autostart=true width=1 height=1 id="sound1"
+enablejavascript="true">
+<embed src="https://s3.amazonaws.com/freecodecamp/simonSound2.mp3" autostart=false width=1 height=1 id="sound2"
+enablejavascript="true">
+<embed src="https://s3.amazonaws.com/freecodecamp/simonSound3.mp3" autostart=false width=1 height=1 id="sound3"
+enablejavascript="true">
+<embed src="https://s3.amazonaws.com/freecodecamp/simonSound4.mp3" autostart=false width=1 height=1 id="sound4"
+enablejavascript="true">-->
+<button onclick = "start()">Start</button>
+<button onclick = "startStrictMode()">Toggle Strict Mode</button>
+<p id = "sMode">Strict Mode is OFF!!</p>
+</div>
+</Body>
+</HTML>
